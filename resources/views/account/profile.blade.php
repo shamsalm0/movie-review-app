@@ -5,14 +5,14 @@
             <div class="col-md-3">
                 <div class="card border-0 shadow-lg">
                     <div class="card-header  text-white">
-                        Welcome, {{Auth::user()->name}}                        
+                        Welcome, {{$user->name}}                        
                     </div>
                     <div class="card-body">
                         <div class="text-center mb-3">
                             <img src="images/profile-img-1.jpg" class="img-fluid rounded-circle" alt="Luna John">                            
                         </div>
                         <div class="h5 text-center">
-                            <strong>{{Auth::user()->name}}</strong>
+                            <strong>{{$user->name}}</strong>
                             <p class="h6 mt-2 text-muted">5 Reviews</p>
                         </div>
                     </div>
@@ -46,25 +46,45 @@
                 </div>
             </div>
             <div class="col-md-9">
+                @if (Session::has('success'))
+                <div class="alert alert-success">
+                    {{Session::get('success')}}
+                </div>
+            @endif
+
+            @if (Session::has('error'))
+            <div class="alert alert-danger">
+                {{Session::get('error')}}
+            </div>
+        @endif
                 <div class="card border-0 shadow">
                     <div class="card-header  text-white">
                         Profile
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">{{Auth::user()->name}}</label>
-                            <input type="text" value="{{Auth::user()->name}}" class="form-control" placeholder="Name" name="name" id="" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">{{Auth::user()->email}}</label>
-                            <input type="text" value="{{Auth::user()->email}}" class="form-control" placeholder="Email"  name="email" id="email"/>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Image</label>
-                            <input type="file" name="image" id="image" class="form-control">
-                            <img src="images/profile-img-1.jpg" class="img-fluid mt-4" alt="" >
-                        </div>   
-                        <button class="btn btn-primary mt-2">Update</button>                     
+                        <form action="{{route('account.updateProfile')}}" method="post">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">{{$user->name}}</label>
+                                <input type="text" value="{{$user->name}}" class="form-control @error('name') is-invalid @enderror" placeholder="Name" name="name" id="" />
+                                @error('name')
+                                <p class="invalid-feedback">{{$message}}</p>
+                            @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">{{$user->email}}</label>
+                                <input type="text" value="{{$user->email}}" class="form-control @error('email') is-invalid @enderror" placeholder="Email"  name="email" id="email"/>
+                                @error('email')
+                                <p class="invalid-feedback">{{$message}}</p>
+                            @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Image</label>
+                                <input type="file" name="image" id="image" class="form-control">
+                                <img src="images/profile-img-1.jpg" class="img-fluid mt-4" alt="" >
+                            </div>   
+                            <button class="btn btn-primary mt-2">Update</button> 
+                            </form>                    
                     </div>
                 </div>                
             </div>
