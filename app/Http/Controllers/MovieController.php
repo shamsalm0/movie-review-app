@@ -10,8 +10,15 @@ use App\Models\Movie;
 
 class MovieController extends Controller
 {
-    public function index() {
-        return view('movies.list');
+    public function index(Request $request) {
+        $movies = Movie::orderBy('created_at','DESC');
+        if(!empty($request->keyword)){
+            $movies->where('title','like','%'.$request->keyword.'%');
+        }
+        $movies=$movies->paginate(3);
+        return view('movies.list',[
+            'movies' => $movies
+        ]);
     }
 
     public function create() {

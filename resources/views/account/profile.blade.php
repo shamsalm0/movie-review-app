@@ -27,7 +27,7 @@
                         <ul class="nav flex-column">
                             @if (Auth::user()->role == 'admin')
                             <li class="nav-item">
-                                <a href="{{route('movies.index')}}">Books</a>                               
+                                <a href="{{route('movies.index')}}">Movies</a>                               
                             </li>
                             <li class="nav-item">
                                 <a href="reviews.html">Reviews</a>                               

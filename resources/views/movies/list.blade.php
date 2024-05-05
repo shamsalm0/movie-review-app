@@ -27,7 +27,7 @@
                 <div class="card-body sidebar">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="book-listing.html">movies</a>                               
+                            <a href="{{route('movies.index')}}">movies</a>                               
                         </li>
                         <li class="nav-item">
                             <a href="reviews.html">Reviews</a>                               
@@ -55,7 +55,17 @@
                     movies
                 </div>
                 <div class="card-body pb-0">            
-                    <a href="{{route('movies.create')}}" class="btn btn-primary">Add Movies</a>            
+                    <div class="d-flex justify-content-between">
+                        <div><a href="{{route('movies.create')}}" class="btn btn-primary ">Add Movies</a> </div>
+
+                       <form action="" method="get">
+                        <div class="d-flex  gap-1">
+                            <input type="text" class="form-control" name="keyword" value="{{Request::get('keyword')}}" id="" placeholder="Search MovieBuzz">
+                            <button class="rounded" type="submit">search</button>
+                            <a href="{{route('movies.index')}}" class="btn btn-secondary ms-2">clear</a>
+                        </div>
+                       </form>
+                    </div>           
                     <table class="table  table-striped mt-3">
                         <thead class="table-dark">
                             <tr>
@@ -66,82 +76,50 @@
                                 <th width="150">Action</th>
                             </tr>
                             <tbody>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Atomic Habits</td>
-                                    <td>James Clear</td>
-                                    <td>3.0 (3 Reviews)</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                        <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                @if ($movies->isNotEmpty())
+                                    @foreach ($movies as $movie)
+                                    <tr>
+                                        <td>{{$movie->title}}</td>
+                                        <td>{{$movie->director}}</td>
+                                        <td>3.0 (3 Reviews)</td>
+                                        <td>
+                                            @if ($movie->status ==1)
+                                            <span class="text-success">Active</span>
+                                                @else
+                                                <span class="text-danger">Block</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
+                                            <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                            <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                    </tr>  
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="5">
+                                            <p>Books not found</p>
+                                        </td>
+                                    </tr>
+                                @endif
+
+                           
                             </tbody>
                         </thead>
-                    </table>   
-                    <nav aria-label="Page navigation " >
+                    </table>  
+                    {{-- @php
+                        $pagination=  $movies->links() ;
+                        dd($pagination );
+                    @endphp --}}
+                       @if ($movies->isNotEmpty())
+                       {{$movies->links()}}   
+                       @endif
+                    
+                    
+                   
+                    {{-- <nav aria-label="Page navigation " >
                         <ul class="pagination">
                           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                           <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -149,7 +127,7 @@
                           <li class="page-item"><a class="page-link" href="#">3</a></li>
                           <li class="page-item"><a class="page-link" href="#">Next</a></li>
                         </ul>
-                      </nav>                  
+                      </nav>                   --}}
                 </div>
                 
             </div>                
