@@ -1,6 +1,6 @@
 @extends('layouts.masterlayout')
 @section('content')
-    <div class="container">
+    <div class="container ">
         <div class="row my-5">
             <div class="col-md-3">
                 <div class="card border-0 shadow-lg">
@@ -9,7 +9,9 @@
                     </div>
                     <div class="card-body">
                         <div class="text-center mb-3">
-                            <img src="images/profile-img-1.jpg" class="img-fluid rounded-circle" alt="Luna John">                            
+                           @if (Auth::user()->image !='')
+                           <img src="{{asset('uploads/profile/thumb/'.Auth::user()->image)}}" class="img-fluid rounded-circle" alt="">
+                           @endif                            
                         </div>
                         <div class="h5 text-center">
                             <strong>{{$user->name}}</strong>
@@ -23,12 +25,14 @@
                     </div>
                     <div class="card-body sidebar">
                         <ul class="nav flex-column">
+                            @if (Auth::user()->role == 'admin')
                             <li class="nav-item">
-                                <a href="book-listing.html">Books</a>                               
+                                <a href="{{route('movies.index')}}">Books</a>                               
                             </li>
                             <li class="nav-item">
                                 <a href="reviews.html">Reviews</a>                               
                             </li>
+                            @endif
                             <li class="nav-item">
                                 <a href="profile.html">Profile</a>                               
                             </li>
@@ -62,7 +66,7 @@
                         Profile
                     </div>
                     <div class="card-body">
-                        <form action="{{route('account.updateProfile')}}" method="post">
+                        <form action="{{route('account.updateProfile')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{$user->name}}</label>
@@ -80,7 +84,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="name" class="form-label">Image</label>
-                                <input type="file" name="image" id="image" class="form-control">
+                                <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                                @error('image')
+                                <p class="invalid-feedback">{{$message}}</p>
+                            @enderror
                                 <img src="images/profile-img-1.jpg" class="img-fluid mt-4" alt="" >
                             </div>   
                             <button class="btn btn-primary mt-2">Update</button> 
