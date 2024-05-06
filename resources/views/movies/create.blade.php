@@ -23,12 +23,14 @@
                 </div>
                 <div class="card-body sidebar">
                     <ul class="nav flex-column">
+                        @if (Auth::user()->role == 'admin')
                         <li class="nav-item">
                             <a href="{{route('movies.index')}}">Movies</a>                               
                         </li>
                         <li class="nav-item">
                             <a href="reviews.html">Reviews</a>                               
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a href="profile.html">Profile</a>                               
                         </li>
@@ -71,7 +73,10 @@
 
                     <div class="mb-3">
                         <label for="Director" class="form-label">Description</label>
-                        <textarea name="description" id="description" class="form-control" placeholder="Description" cols="30" rows="5"></textarea>
+                        <textarea name="discription" id="discription" class="form-control @error('discription') is-invalid @enderror" placeholder="Description" cols="30" rows="5"></textarea>
+                        @error('discription')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
                     </div>
 
                     <div class="mb-3">

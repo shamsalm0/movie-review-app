@@ -26,12 +26,14 @@
                 </div>
                 <div class="card-body sidebar">
                     <ul class="nav flex-column">
+                        @if (Auth::user()->role == 'admin')
                         <li class="nav-item">
-                            <a href="{{route('movies.index')}}">movies</a>                               
+                            <a href="{{route('movies.index')}}">Movies</a>                               
                         </li>
                         <li class="nav-item">
                             <a href="reviews.html">Reviews</a>                               
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a href="profile.html">Profile</a>                               
                         </li>
@@ -65,7 +67,12 @@
                             <a href="{{route('movies.index')}}" class="btn btn-secondary ms-2">clear</a>
                         </div>
                        </form>
-                    </div>           
+                    </div>  
+                    @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{Session::get('success')}}
+                    </div>
+                @endif         
                     <table class="table  table-striped mt-3">
                         <thead class="table-dark">
                             <tr>
@@ -91,9 +98,15 @@
                                         </td>
                                         <td>
                                             <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
-                                            <a href="edit-book.html" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
+                                            <a href="{{route('movies.edit',$movie->id)}}" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-                                            <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                            <form action="{{ route('movies.drop', $movie->id) }}" method="post" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete?')">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>  
                                     @endforeach
@@ -136,3 +149,20 @@
 </div>
 
 @endsection
+
+{{-- @section('script')
+    <script>
+        function deleteMovie(id){
+            if(confirm'Are you sure you want to delete?'){
+                $.ajax({
+                    url:'{{route('movies.drop')}}',
+                    type:'delete',
+                    data:{id:id},
+                    success: function(response){
+                        window.location.href = '{{route('movies.drop')}}'
+                    }
+                })
+            }
+        }
+    </script>
+@endsection --}}
