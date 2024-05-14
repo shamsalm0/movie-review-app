@@ -45,6 +45,7 @@ class MovieController extends Controller
         $movie->title= $request->title;
         $movie->director= $request->director;
         $movie->discription= $request->discription;
+        $movie->trailer = $request->trailer;
         $movie->status= $request->status;
         $movie->save();
         // dd($request->discription);
@@ -97,6 +98,7 @@ class MovieController extends Controller
         $movie->title= $request->title;
         $movie->director= $request->director;
         $movie->discription= $request->discription;
+        $movie->trailer= $request->trailer;
         $movie->status= $request->status;
         $movie->save();
 
@@ -120,7 +122,7 @@ class MovieController extends Controller
         }
        
 
-        return redirect()->route('movies.index')->with('success','you have registered successfully');
+        return redirect()->route('movies.index')->with('success','Movie updated successfully');
     }
 
     public function drop(Request $request) {

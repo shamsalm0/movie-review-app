@@ -9,6 +9,8 @@ use App\Http\Controllers\MovieController;
 // });
 
 Route::get('/',[HomeController::class,'index'])->name('home');
+Route::get('/movies/{id}',[HomeController::class,'details'])->name('movies.detail');
+Route::post('/movies/{id}/submit-review', [HomeController::class, 'submitReview'])->name('movies.submit-review');
 Route::get('account/profile',[AccountController::class,'profile'])->name('account.profile');
 
 Route::group(['prefix'=>'account'],function(){

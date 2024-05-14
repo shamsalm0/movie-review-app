@@ -72,8 +72,19 @@
             </div>
 
             <div class="mb-3">
-                <label for="director" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" placeholder="Description" cols="30" rows="5">{{$movie->discription}}</textarea>
+                <label for="trailer" class="form-label @error('trailer') is-invalid @enderror">trailer</label>
+                <input value="{{$movie->trailer}}" type="text" class="form-control" placeholder="trailer"  name="trailer" id="trailer"/>
+                @error('trailer')
+                <p class="invalid-feedback">{{$message}}</p>
+            @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="Director" class="form-label">Description</label>
+                <textarea name="discription" id="discription" value="{{$movie->discription or old('discription')}}" class="form-control @error('discription') is-invalid @enderror" placeholder="Description" cols="30" rows="5"></textarea>
+                @error('discription')
+                <p class="invalid-feedback">{{$message}}</p>
+            @enderror
             </div>
 
             <div class="mb-3">
